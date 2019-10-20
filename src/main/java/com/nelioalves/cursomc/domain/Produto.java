@@ -9,6 +9,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import javax.persistence.JoinColumn;
 
 @Entity
@@ -21,6 +23,7 @@ public class Produto implements Serializable {
 	private String nome;
 	private double preco;
 	
+	@JsonBackReference //do outro lado da associacao (categoria) ja foram buscados os objetos, omite as categorias dos produtos
 	@ManyToMany
 	@JoinTable(name = "PRODUTO_CATEGORIA",
 		joinColumns = @JoinColumn(name = "produto_id"),

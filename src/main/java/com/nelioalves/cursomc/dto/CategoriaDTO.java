@@ -4,6 +4,8 @@ import java.io.Serializable;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import org.springframework.data.domain.Page;
+
 import com.nelioalves.cursomc.domain.Categoria;
 
 public class CategoriaDTO implements Serializable {
@@ -38,5 +40,9 @@ public class CategoriaDTO implements Serializable {
 	
 	public static List<CategoriaDTO> fromList(List<Categoria> list) {
 		return list.stream().map(obj -> new CategoriaDTO(obj)).collect(Collectors.toList());
+	}
+	
+	public static Page<CategoriaDTO> fromPage(Page<Categoria> page) {
+		return  page.map(obj -> new CategoriaDTO(obj));
 	}
 }

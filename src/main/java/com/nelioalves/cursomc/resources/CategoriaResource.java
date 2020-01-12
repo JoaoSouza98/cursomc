@@ -58,10 +58,10 @@ public class CategoriaResource {
 	}
 	
 	@PutMapping(value="/{id}") 
-	public ResponseEntity<Void> update(@RequestBody Categoria obj, @PathVariable Integer id) {
+	public ResponseEntity<Void> update(@RequestBody CategoriaDTO obj, @PathVariable Integer id) {
 		obj.setId(id); //soh por garantia mesmo
 		
-		obj = service.update(obj);
+		service.update(obj);
 		
 		return ResponseEntity.noContent().build();
 	}

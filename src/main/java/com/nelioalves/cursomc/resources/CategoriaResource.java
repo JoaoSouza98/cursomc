@@ -4,6 +4,8 @@ import java.net.URI;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
@@ -46,9 +48,9 @@ public class CategoriaResource {
 	}
 	
 	@PostMapping
-	public ResponseEntity<Void> insert(@RequestBody Categoria obj) {
+	public ResponseEntity<Void> insert(@Valid @RequestBody CategoriaDTO dto) {
 		
-		obj = service.insert(obj);
+		Categoria obj = service.insert(dto);
 		
 		URI uri = buildURI(obj, "id", obj.getId());
 		

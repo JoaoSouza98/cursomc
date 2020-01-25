@@ -126,8 +126,9 @@ public class CursomcApplication implements CommandLineRunner {
 		Pagamento pagto2 = new PagamentoComBoleto(null, EstadoPagamento.PENDENTE, ped2, sdf.parse("20/10/2017 00:00"), null);
 
 		ped1 = new Pedido(null, sdf.parse("30/09/2017 10:32"), cli1, e1, pagto1);
+		ped2 = new Pedido(null, sdf.parse("30/09/2017 10:32"), cli1, e1, pagto2);
 		
-		cli1.getPedidos().addAll(Arrays.asList(ped1, ped2));
+		cli1.pedidos.addAll(Arrays.asList(ped1, ped2));
 		
 		pedidoRepository.saveAll(Arrays.asList(ped1, ped2));
 		pagamentoRepository.saveAll(Arrays.asList(pagto1, pagto2));
@@ -136,12 +137,12 @@ public class CursomcApplication implements CommandLineRunner {
 		ItemPedido ip2 = new ItemPedido(ped1, p3, 0.0, 2, 80.0);
 		ItemPedido ip3 = new ItemPedido(ped2, p2, 100.0, 1, 800.0);
 		
-		ped1.getItens().addAll(Arrays.asList(ip1, ip2));
-		ped2.getItens().addAll(Arrays.asList(ip3));
+		ped1.itens.addAll(Arrays.asList(ip1, ip2));
+		ped2.itens.addAll(Arrays.asList(ip3));
 		
-		p1.getItens().addAll(Arrays.asList(ip1));
-		p2.getItens().addAll(Arrays.asList(ip3));
-		p3.getItens().addAll(Arrays.asList(ip2));
+		p1.itens.addAll(Arrays.asList(ip1));
+		p2.itens.addAll(Arrays.asList(ip3));
+		p3.itens.addAll(Arrays.asList(ip2));
 		
 		itemPedidoRepository.saveAll(Arrays.asList(ip1, ip2, ip3));
 	}

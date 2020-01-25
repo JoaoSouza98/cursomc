@@ -18,14 +18,14 @@ import javax.persistence.OneToMany;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
-public class Produto implements Serializable {
+public final class Produto implements Serializable {
 	private static final long serialVersionUID = 1L;
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Integer id;
-	private String nome;
-	private double preco;
+	public final Integer id;
+	public final String nome;
+	public final double preco;
 	
 	@JsonIgnore //do outro lado da associacao (categoria) ja foram buscados os objetos, omite as categorias dos produtos
 	@ManyToMany
@@ -33,70 +33,19 @@ public class Produto implements Serializable {
 		joinColumns = @JoinColumn(name = "produto_id"),
 		inverseJoinColumns = @JoinColumn(name = "categoria_id")
 			)
-	private List<Categoria> categorias = new ArrayList<>();
+	public final List<Categoria> categorias;
 	
 	@JsonIgnore
 	@OneToMany(mappedBy="id.produto")
-	private Set<ItemPedido> itens = new HashSet<>();
-	
-	public Produto() {
-	}
+	public final Set<ItemPedido> itens;
 
 	public Produto(Integer id, String nome, double preco) {
 		super();
 		this.id = id;
 		this.nome = nome;
 		this.preco = preco;
-	}
-	
-	@JsonIgnore //impede a serializacao dos pedidos evitando depen
-	public List<Pedido> getPedidos() {
-		List<Pedido> lista = new ArrayList<>();
-		for (ItemPedido x : itens) {
-			lista.add(x.getPedido());
-		}
-		
-		return lista;
-	}
-
-	public Integer getId() {
-		return id;
-	}
-
-	public void setId(Integer id) {
-		this.id = id;
-	}
-
-	public String getNome() {
-		return nome;
-	}
-
-	public void setNome(String nome) {
-		this.nome = nome;
-	}
-
-	public double getPreco() {
-		return preco;
-	}
-
-	public void setPreco(double preco) {
-		this.preco = preco;
-	}
-
-	public List<Categoria> getCategorias() {
-		return categorias;
-	}
-
-	public void setCategorias(List<Categoria> categorias) {
-		this.categorias = categorias;
-	}
-
-	public Set<ItemPedido> getItens() {
-		return itens;
-	}
-
-	public void setItens(Set<ItemPedido> itens) {
-		this.itens = itens;
+		categorias = new ArrayList<>();
+		itens = new HashSet<>();
 	}
 	
 	@Override

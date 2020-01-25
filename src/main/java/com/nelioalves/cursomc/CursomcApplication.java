@@ -80,12 +80,12 @@ public class CursomcApplication implements CommandLineRunner {
 		Produto p2 = new Produto (null, "Impressora", 800.00);
 		Produto p3 = new Produto (null, "Mouse", 80.00);
 		
-		cat1.getProdutos().addAll(Arrays.asList(p1, p2, p3));
-		cat2.getProdutos().add(p2);
+		cat1.produtos.addAll(Arrays.asList(p1, p2, p3));
+		cat2.produtos.add(p2);
 		
-		p1.getCategorias().addAll(Arrays.asList(cat1));
-		p2.getCategorias().addAll(Arrays.asList(cat1, cat2));
-		p3.getCategorias().addAll(Arrays.asList(cat1));
+		p1.categorias.addAll(Arrays.asList(cat1));
+		p2.categorias.addAll(Arrays.asList(cat1, cat2));
+		p3.categorias.addAll(Arrays.asList(cat1));
 		
 		categoriaRepository.saveAll(Arrays.asList(cat1, cat2, cat3, cat4, cat5, cat6, cat7));
 		produtoRepository.saveAll(Arrays.asList(p1, p2, p3));
@@ -98,34 +98,34 @@ public class CursomcApplication implements CommandLineRunner {
 		Cidade c2 = new Cidade(null, "Sao Paulo", est2);
 		Cidade c3 = new Cidade(null, "Campinas", est2);
 		
-		est1.getCidades().add(c1);
-		est2.getCidades().addAll(Arrays.asList(c2, c3));
+		est1.cidades.add(c1);
+		est2.cidades.addAll(Arrays.asList(c2, c3));
 		
 		estadoRepository.saveAll(Arrays.asList(est1, est2));
 		cidadeRepository.saveAll(Arrays.asList(c1, c2, c3));
 		
 		Cliente cli1 = new Cliente(null, "Maria Silva", "maria@gmail.com", "36378912377", TipoCliente.PESSOAFISICA);
 		
-		cli1.getTelefones().addAll(Arrays.asList("82541809","987217781"));
+		cli1.telefones.addAll(Arrays.asList("82541809","987217781"));
 		
 		Endereco e1 = new Endereco(null, "Rua Flores", "300", "Apto 303", "Jardim", "19086889", cli1, c1);
 		Endereco e2 = new Endereco(null, "Avenida Matos", "105", "Sala 800", "Centro", "98656889", cli1, c2);
 		
-		cli1.getEnderecos().addAll(Arrays.asList(e1, e2));
+		cli1.enderecos.addAll(Arrays.asList(e1, e2));
 		
 		clienteRepository.save(cli1);
 		enderecoRepository.saveAll(Arrays.asList(e1, e2));
 		
 		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm");
 		
-		Pedido ped1 = new Pedido(null, sdf.parse("30/09/2017 10:32"), cli1, e1);
-		Pedido ped2 = new Pedido(null, sdf.parse("10/10/2017 19:35"), cli1, e2);
+		Pedido ped1 = new Pedido(null, sdf.parse("30/09/2017 10:32"), cli1, e1, null);
+		Pedido ped2 = new Pedido(null, sdf.parse("10/10/2017 19:35"), cli1, e2, null);
 		
 		Pagamento pagto1 = new PagamentoComCartao(null, EstadoPagamento.QUITADO, ped1, 6);
-		ped1.setPagamento(pagto1);
 		
 		Pagamento pagto2 = new PagamentoComBoleto(null, EstadoPagamento.PENDENTE, ped2, sdf.parse("20/10/2017 00:00"), null);
-		ped2.setPagamento(pagto2);
+
+		ped1 = new Pedido(null, sdf.parse("30/09/2017 10:32"), cli1, e1, pagto1);
 		
 		cli1.getPedidos().addAll(Arrays.asList(ped1, ped2));
 		

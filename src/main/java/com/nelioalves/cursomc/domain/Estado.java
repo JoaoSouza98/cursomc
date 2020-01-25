@@ -13,49 +13,23 @@ import javax.persistence.OneToMany;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
-public class Estado implements Serializable {
+public final class Estado implements Serializable {
 	private static final long serialVersionUID = 1L;
 	
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
-	private Integer id;
-	private String nome;
+	public final Integer id;
+	public final String nome;
 	
+	@JsonIgnore
 	@OneToMany(mappedBy="estado")
-	private List<Cidade> cidades = new ArrayList<>();
-	
-	public Estado() {
-	}
+	public final List<Cidade> cidades;
 
 	public Estado(Integer id, String nome) {
 		super();
 		this.id = id;
 		this.nome = nome;
-	}
-
-	public Integer getId() {
-		return id;
-	}
-
-	public void setId(Integer id) {
-		this.id = id;
-	}
-
-	public String getNome() {
-		return nome;
-	}
-
-	public void setNome(String nome) {
-		this.nome = nome;
-	}
-
-	@JsonIgnore
-	public List<Cidade> getCidades() {
-		return cidades;
-	}
-
-	public void setCidades(List<Cidade> cidades) {
-		this.cidades = cidades;
+		cidades = new ArrayList<>();
 	}
 
 	@Override

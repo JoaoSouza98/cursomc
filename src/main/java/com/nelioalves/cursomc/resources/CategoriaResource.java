@@ -18,10 +18,11 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.nelioalves.cursomc.domain.Categoria;
-import com.nelioalves.cursomc.dto.CategoriaDTO;
+import com.nelioalves.cursomc.services.dto.CategoriaDTO;
+import com.nelioalves.cursomc.resources.requests.CategoriaInsertRequest;
+import com.nelioalves.cursomc.resources.util.URIUtil;
 import com.nelioalves.cursomc.services.CategoriaService;
 
 @RestController
@@ -48,19 +49,17 @@ public class CategoriaResource {
 	}
 	
 	@PostMapping
-	public ResponseEntity<Void> insert(@Valid @RequestBody CategoriaDTO dto) {
+	public ResponseEntity<Void> insert(@Valid @RequestBody CategoriaInsertRequest request) {
 		
-		Categoria obj = service.insert(dto);
+		Categoria obj = service.insert(CategoriaInsertRequest.to(request));
 		
-		URI uri = buildURI(obj, "id", obj.getId());
+		URI uri = URIUtil.buildURI(obj, "id", obj.id);
 		
 		return ResponseEntity.created(uri).build();
 	}
 	
 	@PutMapping(value="/{id}") 
 	public ResponseEntity<Void> update(@RequestBody CategoriaDTO obj, @PathVariable Integer id) {
-		obj.setId(id); //soh por garantia mesmo
-		
 		service.update(obj);
 		
 		return ResponseEntity.noContent().build();
@@ -88,13 +87,5 @@ public class CategoriaResource {
 		Page<CategoriaDTO> list = CategoriaDTO.fromPage(service.findPage(page, linesPerPage, orderBy, direction));
 		
 		return ResponseEntity.ok().body(list);
-	}
-	
-	private URI buildURI(Object obj, String pathVariable, int attr) {
-		return ServletUriComponentsBuilder
-				.fromCurrentRequest()
-				.path(String.format("/{%s}", pathVariable))
-				.buildAndExpand(attr)
-				.toUri();
 	}
 }

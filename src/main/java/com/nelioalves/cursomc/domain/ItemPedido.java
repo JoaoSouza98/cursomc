@@ -8,67 +8,22 @@ import javax.persistence.Entity;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
-public class ItemPedido implements Serializable {
+public final class ItemPedido implements Serializable {
 	private static final long serialVersionUID = 1L;
 	
 	@JsonIgnore //Nao serializa o pedido e produto do item
 	@EmbeddedId //Id embutido em um tipo auxiliar
-	private ItemPedidoPK id = new ItemPedidoPK();
+	public final ItemPedidoPK id;
 	
-	private Double desconto;
-	private Integer quantidade;
-	private Double preco;
-	
-	public ItemPedido(){
-	}
+	public final Double desconto;
+	public final Integer quantidade;
+	public final Double preco;
 
 	public ItemPedido(Pedido pedido, Produto produto, Double desconto, Integer quantidade, Double preco) {
 		super();
-		id.setPedido(pedido);
-		id.setProduto(produto);
+		id = new ItemPedidoPK(pedido, produto);
 		this.desconto = desconto;
 		this.quantidade = quantidade;
-		this.preco = preco;
-	}
-	
-	@JsonIgnore //metodos get tambem levam a serializacao
-	public Pedido getPedido() {
-		return id.getPedido();
-	}
-	
-	public Produto getProduto() {
-		return id.getProduto();
-	}
-
-	public ItemPedidoPK getId() {
-		return id;
-	}
-
-	public void setId(ItemPedidoPK id) {
-		this.id = id;
-	}
-
-	public Double getDesconto() {
-		return desconto;
-	}
-
-	public void setDesconto(Double desconto) {
-		this.desconto = desconto;
-	}
-
-	public Integer getQuantidade() {
-		return quantidade;
-	}
-
-	public void setQuantidade(Integer quantidade) {
-		this.quantidade = quantidade;
-	}
-
-	public Double getPreco() {
-		return preco;
-	}
-
-	public void setPreco(Double preco) {
 		this.preco = preco;
 	}
 

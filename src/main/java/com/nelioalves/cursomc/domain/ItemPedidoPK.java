@@ -7,29 +7,22 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
 @Embeddable // diz que ela eh um subtipo
-public class ItemPedidoPK implements Serializable{
+public final class ItemPedidoPK implements Serializable{
 	private static final long serialVersionUID = 1L;
 	
 	@ManyToOne
 	@JoinColumn(name="pedido_id")
-	private Pedido pedido;
+	public final Pedido pedido;
 	
 	@ManyToOne
 	@JoinColumn(name="produto_id")
-	private Produto produto;
+	public final Produto produto;
 	
-	public Pedido getPedido() {
-		return pedido;
-	}
-	public void setPedido(Pedido pedido) {
+	public ItemPedidoPK(Pedido pedido, Produto produto) {
 		this.pedido = pedido;
-	}
-	public Produto getProduto() {
-		return produto;
-	}
-	public void setProduto(Produto produto) {
 		this.produto = produto;
 	}
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -59,6 +52,4 @@ public class ItemPedidoPK implements Serializable{
 			return false;
 		return true;
 	}
-	
-	
 }

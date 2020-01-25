@@ -1,4 +1,4 @@
-package com.nelioalves.cursomc.dto;
+package com.nelioalves.cursomc.services.dto;
 
 import java.io.Serializable;
 import java.util.List;
@@ -11,48 +11,36 @@ import org.springframework.data.domain.Page;
 
 import com.nelioalves.cursomc.domain.Categoria;
 
-public class CategoriaDTO implements Serializable {
+public final class CategoriaDTO implements Serializable {
 	private static final long serialVersionUID = 1L;
 	
-	private Integer id;
+	public final Integer id;
 	
 	@NotBlank(message="Preenchimento obrigatorio")
 	@Length(min=5, max=80, message="O tamanho deve ser entre 5 e 80 caracteres")
-	private String nome;
+	public final String nome;
 	
-	public CategoriaDTO() {
-	}
-	
-	public CategoriaDTO(Categoria obj) {
-		id = obj.getId();
-		nome = obj.getNome();
-	}
-
-	public Integer getId() {
-		return id;
-	}
-
-	public void setId(Integer id) {
+	public CategoriaDTO(Integer id, String nome) {
 		this.id = id;
-	}
-
-	public String getNome() { 
-		return nome;
-	}
-
-	public void setNome(String nome) {
 		this.nome = nome;
 	}
 	
+	public static CategoriaDTO from(Categoria obj) {
+		return new CategoriaDTO(
+				obj.id,
+				obj.nome
+		);
+	}
+	
 	public static List<CategoriaDTO> fromList(List<Categoria> list) {
-		return list.stream().map(obj -> new CategoriaDTO(obj)).collect(Collectors.toList());
+		return list.stream().map(obj -> CategoriaDTO.from(obj)).collect(Collectors.toList());
 	}
 	
 	public static Page<CategoriaDTO> fromPage(Page<Categoria> page) {
-		return  page.map(obj -> new CategoriaDTO(obj));
+		return  page.map(obj -> CategoriaDTO.from(obj));
 	}
 	
 	public static Categoria to(CategoriaDTO dto) {
-		return new Categoria(dto.getId(), dto.getNome());
+		return new Categoria(dto.id, dto.nome);
 	}
 }

@@ -40,6 +40,18 @@ public final class Cliente implements Serializable {
 	@OneToMany(mappedBy="cliente")
 	public final List<Pedido> pedidos;
 
+	@SuppressWarnings("unused")
+	private Cliente() {
+		id = null;
+		nome = null;
+		email = null;
+		cpfOuCnpj = null;
+		tipo = null;
+		enderecos = null;
+		telefones = null;
+		pedidos = null;
+	}
+
 	public Cliente(Integer id, String nome, String email, String cpfOuCnpj, TipoCliente tipo) {
 		super();
 		this.id = id;

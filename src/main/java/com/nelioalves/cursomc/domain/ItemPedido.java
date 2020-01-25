@@ -19,6 +19,14 @@ public final class ItemPedido implements Serializable {
 	public final Integer quantidade;
 	public final Double preco;
 
+	@SuppressWarnings("unused")
+	private ItemPedido() {
+		id = null;
+		desconto = null;
+		quantidade = null;
+		preco = null;
+	}
+
 	public ItemPedido(Pedido pedido, Produto produto, Double desconto, Integer quantidade, Double preco) {
 		super();
 		id = new ItemPedidoPK(pedido, produto);
@@ -51,5 +59,4 @@ public final class ItemPedido implements Serializable {
 			return false;
 		return true;
 	}
-	
 }

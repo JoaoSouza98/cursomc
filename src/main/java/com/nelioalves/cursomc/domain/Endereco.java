@@ -33,6 +33,18 @@ public final class Endereco implements Serializable {
 	@JoinColumn(name="cidade_id")
 	public final Cidade cidade;
 
+	@SuppressWarnings("unused")
+	private Endereco() {
+		id = null;
+		logradouro = null;
+		numero = null;
+		complemento = null;
+		bairro = null;
+		cep = null;
+		cliente = null;
+		cidade = null;
+	}
+
 	public Endereco(Integer id, String logradouro, String numero, String complemento, String bairro, String cep,
 			Cliente cliente, Cidade cidade) {
 		super();
@@ -70,6 +82,4 @@ public final class Endereco implements Serializable {
 			return false;
 		return true;
 	}
-	
-	
 }

@@ -22,6 +22,13 @@ public final class Cidade implements Serializable {
 	@JoinColumn(name="estado_id")
 	private Estado estado;
 
+	@SuppressWarnings("unused")
+	private Cidade() {
+		id = null;
+		nome = null;
+		estado = null;
+	}
+
 	public Cidade(Integer id, String nome, Estado estado) {
 		super();
 		this.id = id;
@@ -69,6 +76,4 @@ public final class Cidade implements Serializable {
 			return false;
 		return true;
 	}
-	
-	
 }

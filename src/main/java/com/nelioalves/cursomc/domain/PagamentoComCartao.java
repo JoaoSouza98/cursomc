@@ -10,6 +10,12 @@ public final class PagamentoComCartao extends Pagamento {
 	
 	public final Integer numeroDeParcelas;
 
+	@SuppressWarnings("unused")
+	private PagamentoComCartao() {
+		super();
+		numeroDeParcelas = null;
+	}
+
 	public PagamentoComCartao(Integer id, EstadoPagamento estado, Pedido pedido, Integer numeroDeParcelas) {
 		super(id, estado, pedido);
 		this.numeroDeParcelas = numeroDeParcelas;

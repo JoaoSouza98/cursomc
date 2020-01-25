@@ -42,6 +42,16 @@ public final class Pedido implements Serializable {
 	@OneToMany(mappedBy="id.pedido")
 	public final Set<ItemPedido> itens;
 
+	@SuppressWarnings("unused")
+	private Pedido() {
+		id = null;
+		instante = null;
+		cliente = null;
+		enderecoDeEntrega = null;
+		pagamento = null;
+		itens = null;
+	}
+
 	public Pedido(Integer id, Date instante, Cliente cliente, Endereco enderecoDeEntrega, Pagamento pagamento) {
 		super();
 		this.id = id;

@@ -28,6 +28,13 @@ public abstract class Pagamento implements Serializable {
 	@MapsId
 	public final Pedido pedido;
 
+	@SuppressWarnings("unused")
+	protected Pagamento() {
+		id = null;
+		estado = null;
+		pedido = null;
+	}
+
 	public Pagamento(Integer id, EstadoPagamento estado, Pedido pedido) {
 		super();
 		this.id = id;
@@ -59,6 +66,4 @@ public abstract class Pagamento implements Serializable {
 			return false;
 		return true;
 	}
-	
-	
 }

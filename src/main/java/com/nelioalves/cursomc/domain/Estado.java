@@ -25,6 +25,13 @@ public final class Estado implements Serializable {
 	@OneToMany(mappedBy="estado")
 	public final List<Cidade> cidades;
 
+	@SuppressWarnings("unused")
+	private Estado() {
+		id = null;
+		nome = null;
+		cidades = null;
+	}
+
 	public Estado(Integer id, String nome) {
 		super();
 		this.id = id;
@@ -56,6 +63,4 @@ public final class Estado implements Serializable {
 			return false;
 		return true;
 	}
-	
-	
 }

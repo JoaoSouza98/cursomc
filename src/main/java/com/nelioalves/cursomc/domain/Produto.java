@@ -25,7 +25,7 @@ public final class Produto implements Serializable {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	public final Integer id;
 	public final String nome;
-	public final double preco;
+	public final Double preco;
 	
 	@JsonIgnore //do outro lado da associacao (categoria) ja foram buscados os objetos, omite as categorias dos produtos
 	@ManyToMany
@@ -39,7 +39,16 @@ public final class Produto implements Serializable {
 	@OneToMany(mappedBy="id.produto")
 	public final Set<ItemPedido> itens;
 
-	public Produto(Integer id, String nome, double preco) {
+	@SuppressWarnings("unused")
+	private Produto() {
+		id = null;
+		nome= null;
+		preco = null;
+		categorias = null;
+		itens = null;
+	}
+
+	public Produto(Integer id, String nome, Double preco) {
 		super();
 		this.id = id;
 		this.nome = nome;

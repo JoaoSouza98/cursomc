@@ -17,6 +17,13 @@ public final class PagamentoComBoleto extends Pagamento {
 	@JsonFormat(pattern="dd/MM/yyyy")
 	public final Date dataPagamento;
 
+	@SuppressWarnings("unused")
+	private PagamentoComBoleto() {
+		super();
+		dataPagamento = null;
+		dataVencimento = null;
+	}
+
 	public PagamentoComBoleto(Integer id, EstadoPagamento estado, Pedido pedido, Date dataVencimento, Date dataPagamento) {
 		super(id, estado, pedido);
 		this.dataPagamento = dataPagamento;

@@ -22,6 +22,12 @@ public final class Categoria implements Serializable {
 	@ManyToMany(mappedBy="categorias")//indica que este eh o outro lado de um mapeamento de tabela associativa ja feito pela outra entidade
 	public final List<Produto> produtos = new ArrayList<>();
 
+	@SuppressWarnings("unused")
+	private Categoria() {
+		id = null;
+		nome = null;
+	}
+
 	public Categoria(Integer id, String nome) {
 		super();
 		this.id = id;
@@ -52,5 +58,4 @@ public final class Categoria implements Serializable {
 			return false;
 		return true;
 	}
-	
 }

@@ -18,6 +18,12 @@ public final class ItemPedidoPK implements Serializable{
 	@JoinColumn(name="produto_id")
 	public final Produto produto;
 	
+	@SuppressWarnings("unused")
+	private ItemPedidoPK() {
+		pedido = null;
+		produto = null;
+	}
+
 	public ItemPedidoPK(Pedido pedido, Produto produto) {
 		this.pedido = pedido;
 		this.produto = produto;

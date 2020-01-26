@@ -1,7 +1,6 @@
 package com.nelioalves.cursomc.services;
 
 import java.util.List;
-import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -11,8 +10,8 @@ import org.springframework.data.domain.Sort.Direction;
 import org.springframework.stereotype.Service;
 
 import com.nelioalves.cursomc.domain.Categoria;
-import com.nelioalves.cursomc.services.dto.CategoriaDTO;
 import com.nelioalves.cursomc.repositories.CategoriaRepository;
+import com.nelioalves.cursomc.services.dto.CategoriaDTO;
 import com.nelioalves.cursomc.services.exceptions.DataIntegrityException;
 import com.nelioalves.cursomc.services.exceptions.ObjectNotFoundException;
 
@@ -22,20 +21,19 @@ public class CategoriaService {
 	@Autowired
 	private CategoriaRepository repo;
 	
-	public Categoria find(Integer id) {
-		Optional<Categoria> obj = repo.findById(id);
-		
-		return obj.orElseThrow(() -> new ObjectNotFoundException("Objeto nao encontrado! Id: " + id
-				+ ", Tipo: " + Categoria.class.getName()));
+	public CategoriaDTO find(Integer id) {
+		return CategoriaDTO.from(repo.findById(id)
+				.orElseThrow(() -> new ObjectNotFoundException("Objeto nao encontrado! Id: " + id
+																+ ", Tipo: " + Categoria.class.getName())));
 	}
 	
-	public Categoria insert(CategoriaDTO obj) {
-		return repo.save(CategoriaDTO.to(obj));
+	public CategoriaDTO insert(CategoriaDTO obj) {
+		return CategoriaDTO.from(repo.save(CategoriaDTO.to(obj)));
 	}
 	
-	public Categoria update(CategoriaDTO obj) {
+	public CategoriaDTO update(CategoriaDTO obj) {
 		find(obj.id);
-		return repo.save(CategoriaDTO.to(obj));
+		return CategoriaDTO.from(repo.save(CategoriaDTO.to(obj)));
 	}
 	
 	public void delete(Integer id) {
@@ -47,12 +45,12 @@ public class CategoriaService {
 		}
 	}
 	
-	public List<Categoria> findAll() {
-		return repo.findAll();
+	public List<CategoriaDTO> findAll() {
+		return CategoriaDTO.fromList(repo.findAll());
 	}
 	
-	public Page<Categoria> findPage(Integer page, Integer linesPerPage, String orderBy, String direction) {
+	public Page<CategoriaDTO> findPage(Integer page, Integer linesPerPage, String orderBy, String direction) {
 		PageRequest pageRequest = PageRequest.of(page, linesPerPage, Direction.valueOf(direction), orderBy);
-		return repo.findAll(pageRequest);
+		return CategoriaDTO.fromPage(repo.findAll(pageRequest));
 	}
 }

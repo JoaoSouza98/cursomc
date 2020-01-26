@@ -6,7 +6,7 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 public class URIUtil {
 	
-	public static URI buildURI(Object obj, String pathVariable, int attr) {
+	public static URI buildURI(String pathVariable, int attr) {
 		return ServletUriComponentsBuilder
 				.fromCurrentRequest()
 				.path(String.format("/{%s}", pathVariable))

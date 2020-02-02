@@ -8,7 +8,7 @@ import org.hibernate.validator.constraints.Length;
 
 import com.nelioalves.cursomc.services.dto.CategoriaDTO;
 
-public class CategoriaRequest implements Serializable {
+public final class CategoriaRequest implements Serializable {
 	private static final long serialVersionUID = 1L;
 	
 	@NotBlank(message="Preenchimento obrigatorio")

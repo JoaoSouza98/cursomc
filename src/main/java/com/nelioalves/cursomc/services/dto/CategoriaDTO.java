@@ -1,6 +1,5 @@
 package com.nelioalves.cursomc.services.dto;
 
-import java.io.Serializable;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -8,8 +7,7 @@ import org.springframework.data.domain.Page;
 
 import com.nelioalves.cursomc.domain.Categoria;
 
-public final class CategoriaDTO implements Serializable {
-	private static final long serialVersionUID = 1L;
+public final class CategoriaDTO {
 	
 	public final Integer id;
 	public final String nome;

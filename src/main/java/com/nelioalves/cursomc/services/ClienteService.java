@@ -1,7 +1,6 @@
 package com.nelioalves.cursomc.services;
 
 import java.util.List;
-import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -11,9 +10,9 @@ import org.springframework.data.domain.Sort.Direction;
 import org.springframework.stereotype.Service;
 
 import com.nelioalves.cursomc.domain.Cliente;
-import com.nelioalves.cursomc.domain.enums.TipoCliente;
-import com.nelioalves.cursomc.services.dto.ClienteDTO;
 import com.nelioalves.cursomc.repositories.ClienteRepository;
+import com.nelioalves.cursomc.services.dto.cliente.ClienteDetailDTO;
+import com.nelioalves.cursomc.services.dto.cliente.ClienteSimpleDTO;
 import com.nelioalves.cursomc.services.exceptions.DataIntegrityException;
 import com.nelioalves.cursomc.services.exceptions.ObjectNotFoundException;
 
@@ -23,28 +22,27 @@ public class ClienteService {
 	@Autowired
 	private ClienteRepository repo;
 	
-	public Cliente find(Integer id) {
-		Optional<Cliente> obj = repo.findById(id);
+	public ClienteDetailDTO find(Integer id) {
 		
-		return obj.orElseThrow(() -> new ObjectNotFoundException("Objeto nao encontrado! Id: " + id
-				+ ", Tipo: " + Cliente.class.getName()));
+		return ClienteDetailDTO.from(repo.findById(id).orElseThrow(() -> 
+			new ObjectNotFoundException("Objeto nao encontrado! Id: " + id
+				+ ", Tipo: " + Cliente.class.getName())));
 	}
 
-	public Cliente insert(ClienteDTO obj) {
-		//garantir que o metodo save realizara uma insercao e nao uma atualizacao
+	public Cliente insert(ClienteSimpleDTO obj) {
 			
-		return repo.save(ClienteDTO.to(obj));
+		return repo.save(ClienteSimpleDTO.to(obj));
 	}
 	
-	public Cliente update(ClienteDTO newObj, Integer id) {
-		Cliente obj = find(id);
+	public Cliente update(ClienteSimpleDTO newObj) {
 		
-		newObj = updateData(obj, newObj);
+		ClienteDetailDTO oldObj = find(newObj.id);
 		
-		return repo.save(ClienteDTO.to(newObj));
+		return repo.save(ClienteSimpleDTO.to(updateData(oldObj, newObj)));
 	}
 	
 	public void delete(Integer id) {
+		
 		find(id); //Caso o objeto nao seja encontrado o metodo find lanca uma excecao
 		try {
 			repo.deleteById(id);
@@ -53,20 +51,17 @@ public class ClienteService {
 		}
 	}
 	
-	public List<Cliente> findAll() {
-		return repo.findAll();
+	public List<ClienteSimpleDTO> findAll() {
+		return ClienteSimpleDTO.fromList(repo.findAll());
 	}
 	
-	public Page<Cliente> findPage(Integer page, Integer linesPerPage, String orderBy, String direction) {
+	public Page<ClienteSimpleDTO> findPage(Integer page, Integer linesPerPage, String orderBy, String direction) {
+		
 		PageRequest pageRequest = PageRequest.of(page, linesPerPage, Direction.valueOf(direction), orderBy);
-		return repo.findAll(pageRequest);
+		return ClienteSimpleDTO.fromPage(repo.findAll(pageRequest));
 	}
 	
-	private ClienteDTO updateData(Cliente obj, ClienteDTO newObj) {
-		return new ClienteDTO (
-			new Cliente(
-				obj.id, newObj.nome, newObj.email, obj.cpfOuCnpj, TipoCliente.toEnum(obj.tipo)
-			)
-		);
+	private ClienteSimpleDTO updateData(ClienteDetailDTO oldObj, ClienteSimpleDTO newObj) {
+		return new ClienteSimpleDTO(oldObj.id, newObj.nome, newObj.email, oldObj.cpfOuCnpj, oldObj.tipo);
 	}
 }

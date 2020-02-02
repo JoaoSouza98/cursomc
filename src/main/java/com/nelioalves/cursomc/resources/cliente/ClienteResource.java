@@ -14,9 +14,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.nelioalves.cursomc.domain.Cliente;
-import com.nelioalves.cursomc.services.dto.ClienteDTO;
+import com.nelioalves.cursomc.resources.cliente.requests.ClienteUpdateRequest;
 import com.nelioalves.cursomc.services.ClienteService;
+import com.nelioalves.cursomc.services.dto.cliente.ClienteDetailDTO;
+import com.nelioalves.cursomc.services.dto.cliente.ClienteSimpleDTO;
 
 @RestController
 @RequestMapping(value="/clientes")
@@ -26,16 +27,15 @@ public class ClienteResource {
 	private ClienteService service;
 	
 	@GetMapping(value="/{id}")
-	public ResponseEntity<Cliente> find(@PathVariable Integer id) { //Response entity encapsula/armazena varias informacoes de uma resposta http para um servico REST
+	public ResponseEntity<ClienteDetailDTO> find(@PathVariable Integer id) { //Response entity encapsula/armazena varias informacoes de uma resposta http para um servico REST
 		
-		Cliente obj = service.find(id);
-		return ResponseEntity.ok().body(obj);
+		return ResponseEntity.ok().body(service.find(id));
 	}
 	
 	@PutMapping(value="/{id}")
-	public ResponseEntity<Void> update(@RequestBody ClienteDTO obj, @PathVariable Integer id) {
+	public ResponseEntity<Void> update(@RequestBody ClienteUpdateRequest obj, @PathVariable Integer id) {
 
-		service.update(obj, id);
+		service.update(ClienteUpdateRequest.to(obj, id));
 
 		return ResponseEntity.noContent().build();
 	}
@@ -47,20 +47,18 @@ public class ClienteResource {
 	}
 	
 	@GetMapping
-	public ResponseEntity<List<ClienteDTO>> findAll() {
-		List<ClienteDTO> list = ClienteDTO.fromList(service.findAll());
+	public ResponseEntity<List<ClienteSimpleDTO>> findAll() {
 
-		return ResponseEntity.ok().body(list);
+		return ResponseEntity.ok().body(service.findAll());
 	}
 	
 	@GetMapping(value="/page")
-	public ResponseEntity<Page<ClienteDTO>> findPage(
+	public ResponseEntity<Page<ClienteSimpleDTO>> findPage(
 			@RequestParam(value="page", defaultValue="0") Integer page, 
 			@RequestParam(value="linesPerPage", defaultValue="24")Integer linesPerPage, 
 			@RequestParam(value="orderBy", defaultValue="nome")String orderBy,
 			@RequestParam(value="direction", defaultValue="ASC")String direction) {
-		Page<ClienteDTO> list = ClienteDTO.fromPage(service.findPage(page, linesPerPage, orderBy, direction));
 
-		return ResponseEntity.ok().body(list);
+		return ResponseEntity.ok().body(service.findPage(page, linesPerPage, orderBy, direction));
 	}
 }

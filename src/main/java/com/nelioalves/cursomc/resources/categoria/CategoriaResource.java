@@ -19,9 +19,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.nelioalves.cursomc.resources.categoria.requests.CategoriaRequest;
-import com.nelioalves.cursomc.resources.categoria.responses.CategoriaResponse;
 import com.nelioalves.cursomc.resources.util.URIUtil;
 import com.nelioalves.cursomc.services.CategoriaService;
+import com.nelioalves.cursomc.services.dto.CategoriaDTO;
 
 @RestController
 @RequestMapping(value="/categorias")
@@ -31,15 +31,15 @@ public class CategoriaResource {
 	private CategoriaService service;
 	
 	@GetMapping(value="/{id}") 
-	public ResponseEntity<CategoriaResponse> find(@PathVariable("id") Integer id) { //Response entity encapsula/armazena varias informacoes de uma resposta http para um servico REST
+	public ResponseEntity<CategoriaDTO> find(@PathVariable("id") Integer id) { //Response entity encapsula/armazena varias informacoes de uma resposta http para um servico REST
 		
-		return ResponseEntity.ok().body(CategoriaResponse.from(service.find(id)));
+		return ResponseEntity.ok().body(service.find(id));
 	}
 	
 	@PostMapping
 	public ResponseEntity<Void> insert(@Valid @RequestBody CategoriaRequest request) {
 		
-		CategoriaResponse response = CategoriaResponse.from(service.insert(CategoriaRequest.to(request)));
+		CategoriaDTO response = service.insert(CategoriaRequest.to(request));
 		
 		URI uri = URIUtil.buildURI("id", response.id);
 		
@@ -61,20 +61,20 @@ public class CategoriaResource {
 	}
 	
 	@GetMapping
-	public ResponseEntity<List<CategoriaResponse>> findAll() {
+	public ResponseEntity<List<CategoriaDTO>> findAll() {
 	
-		return ResponseEntity.ok().body(CategoriaResponse.fromList(service.findAll()));
+		return ResponseEntity.ok().body(service.findAll());
 	}
 	
 	@GetMapping(value="/page")
-	public ResponseEntity<Page<CategoriaResponse>> findPage(
+	public ResponseEntity<Page<CategoriaDTO>> findPage(
 			@RequestParam(value="page", defaultValue="0") Integer page, 
 			@RequestParam(value="linesPerPage", defaultValue="24")Integer linesPerPage, 
 			@RequestParam(value="orderBy", defaultValue="nome")String orderBy, 
 			@RequestParam(value="direction", defaultValue="ASC")String direction) {
 		
 		return ResponseEntity.ok().body(
-				CategoriaResponse.fromPage(service.findPage(page, linesPerPage, orderBy, direction))
+				service.findPage(page, linesPerPage, orderBy, direction)
 		);
 	}
 }

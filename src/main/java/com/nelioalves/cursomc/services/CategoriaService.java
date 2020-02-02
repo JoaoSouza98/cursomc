@@ -31,9 +31,11 @@ public class CategoriaService {
 		return CategoriaDTO.from(repo.save(CategoriaDTO.to(obj)));
 	}
 	
-	public CategoriaDTO update(CategoriaDTO obj) {
-		find(obj.id);
-		return CategoriaDTO.from(repo.save(CategoriaDTO.to(obj)));
+public Categoria update(CategoriaDTO newObj) {
+		
+		CategoriaDTO oldObj = find(newObj.id);
+		
+		return repo.save(CategoriaDTO.to(updateData(oldObj, newObj)));
 	}
 	
 	public void delete(Integer id) {
@@ -52,5 +54,9 @@ public class CategoriaService {
 	public Page<CategoriaDTO> findPage(Integer page, Integer linesPerPage, String orderBy, String direction) {
 		PageRequest pageRequest = PageRequest.of(page, linesPerPage, Direction.valueOf(direction), orderBy);
 		return CategoriaDTO.fromPage(repo.findAll(pageRequest));
+	}
+	
+	private CategoriaDTO updateData(CategoriaDTO oldObj, CategoriaDTO newObj) {
+		return new CategoriaDTO(oldObj.id, newObj.nome);
 	}
 }

@@ -53,7 +53,7 @@ public final class Cliente implements Serializable {
 		pedidos = null;
 	}
 
-	public Cliente(Integer id, String nome, String email, String cpfOuCnpj, TipoCliente tipo) {
+	public Cliente(Integer id, String nome, String email, String cpfOuCnpj, TipoCliente tipo, List<Endereco> enderecos) {
 		super();
 		this.id = id;
 		this.nome = nome;

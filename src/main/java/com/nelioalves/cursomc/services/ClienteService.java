@@ -2,6 +2,8 @@ package com.nelioalves.cursomc.services;
 
 import java.util.List;
 
+import javax.transaction.Transactional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Page;
@@ -22,6 +24,9 @@ public class ClienteService {
 	@Autowired
 	private ClienteRepository repo;
 	
+	@Autowired
+	private CidadeService cidadeService;
+
 	public ClienteDetailDTO find(Integer id) {
 		
 		return ClienteDetailDTO.from(repo.findById(id).orElseThrow(() -> 
@@ -29,9 +34,17 @@ public class ClienteService {
 				+ ", Tipo: " + Cliente.class.getName())));
 	}
 
-	public Cliente insert(ClienteSimpleDTO obj) {
+	@Transactional
+	public Cliente insert(ClienteDetailDTO obj, Integer cidadeId) {
+
+		Cliente entity = ClienteDetailDTO.to(obj);
+
+		entity.enderecos.forEach(e -> {
+			cidadeService.insert(e.cidade);
 			
-		return repo.save(ClienteSimpleDTO.to(obj));
+		});
+
+		return repo.save(entity);
 	}
 	
 	public Cliente update(ClienteSimpleDTO newObj) {

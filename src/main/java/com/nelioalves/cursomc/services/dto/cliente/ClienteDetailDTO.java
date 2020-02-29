@@ -22,7 +22,7 @@ public final class ClienteDetailDTO {
 	
 	
 	public ClienteDetailDTO (Integer id, String nome, String email, String cpfOuCnpj, 
-			String tipo, List<EnderecoDTO> enderecos, Set<String> telefones ) {
+			String tipo, List<EnderecoDTO> enderecos, Set<String> telefones) {
 		this.id = id;
 		this.nome = nome;
 		this.email = email;
@@ -53,6 +53,6 @@ public final class ClienteDetailDTO {
 	}
 	
 	public static Cliente to(ClienteDetailDTO dto) {
-		return new Cliente(dto.id, dto.nome, dto.email, null, null);
+		return new Cliente(dto.id, dto.nome, dto.email, null, null, EnderecoDTO.toList(dto.enderecos, dto.id));
 	}
 }

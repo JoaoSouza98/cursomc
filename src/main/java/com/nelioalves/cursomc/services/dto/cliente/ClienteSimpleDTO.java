@@ -43,6 +43,6 @@ public final class ClienteSimpleDTO {
 	}
 	
 	public static Cliente to(ClienteSimpleDTO dto) {
-		return new Cliente(dto.id, dto.nome, dto.email, null, null);
+		return new Cliente(dto.id, dto.nome, dto.email, null, null, null);
 	}
 }

@@ -30,7 +30,7 @@ public final class Cliente implements Serializable {
 	public final String cpfOuCnpj;
 	public final Integer tipo;
 		
-	@OneToMany(mappedBy="cliente", cascade = CascadeType.ALL)
+	@OneToMany(mappedBy="cliente", cascade = CascadeType.ALL) //permite que operacoes em cliente que afetariam seus enderecos associados sejam efetuadas (ex. delete)
 	public final List<Endereco> enderecos;
 	
 	@ElementCollection

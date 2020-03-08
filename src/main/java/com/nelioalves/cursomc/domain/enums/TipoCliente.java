@@ -1,9 +1,23 @@
 package com.nelioalves.cursomc.domain.enums;
 
+import com.nelioalves.cursomc.services.validation.utils.Valid;
+import com.nelioalves.cursomc.services.validation.utils.Cnpj;
+import com.nelioalves.cursomc.services.validation.utils.Cpf;
+
 public enum TipoCliente {
 	
-	PESSOAFISICA(1, "Pessoa Fisica"),
-	PESSOAJURIDICA(2, "Pessoa Juridica");
+	PESSOAFISICA(1, "Pessoa Fisica") {
+		@Override
+		public Valid getDocumentValidator() {
+			return new Cpf();
+		}
+	} ,
+	PESSOAJURIDICA(2, "Pessoa Juridica") {
+		@Override
+		public Valid getDocumentValidator() {
+			return new Cnpj();
+		}
+	};
 	
 	public final int cod;
 	public final String descricao;
@@ -27,4 +41,6 @@ public enum TipoCliente {
 		
 		throw new IllegalArgumentException("Id invalido: " + cod);
 	}
+
+	public abstract Valid getDocumentValidator();
 }

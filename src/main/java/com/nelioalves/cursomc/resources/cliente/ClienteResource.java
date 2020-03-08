@@ -42,8 +42,6 @@ public class ClienteResource {
 	@PostMapping
 	public ResponseEntity<Void> insert(@Valid @RequestBody ClienteNewRequest request) {
 
-
-
 		Cliente response = service.insert(ClienteNewRequest.to(request), request.cidadeId);
 
 		URI uri = URIUtil.buildURI("id", response.id);
